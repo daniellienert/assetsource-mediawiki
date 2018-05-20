@@ -1,5 +1,5 @@
 {
-    "description": "",
+    "description": "Wikimedia Asset Source for Neos CMS",
     "type": "neos-package",
     "name": "dl/assetsource-wikimedia",
     "license": "MIT",

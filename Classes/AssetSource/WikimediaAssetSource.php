@@ -2,7 +2,7 @@
 namespace DL\AssetSource\Wikimedia\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.Pexels package.
+ * This file is part of the DL.AssetSource.Wikimedia package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this

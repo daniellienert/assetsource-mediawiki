@@ -9,9 +9,7 @@ namespace DL\AssetSource\Wikimedia\AssetSource;
  * source code.
  */
 
-use DL\AssetSource\Wikimedia\Api\WikimediaQueryResult;
 use Neos\Flow\Annotations as Flow;
-use Behat\Transliterator\Transliterator;
 use Neos\Flow\Http\Uri;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\HasRemoteOriginalInterface;

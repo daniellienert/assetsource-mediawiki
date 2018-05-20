@@ -1,6 +1,14 @@
 <?php
 namespace DL\AssetSource\Wikimedia\Api\SearchStrategies;
 
+/*
+ * This file is part of the DL.AssetSource.Wikimedia package.
+ *
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
+
 use DL\AssetSource\Wikimedia\Api\WikimediaClient;
 use DL\AssetSource\Wikimedia\AssetSource\WikimediaAssetSource;
 
