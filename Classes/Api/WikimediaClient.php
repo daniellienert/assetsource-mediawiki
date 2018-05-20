@@ -9,14 +9,25 @@ namespace DL\AssetSource\Wikimedia\Api;
  * source code.
  */
 
+use DL\AssetSource\Wikimedia\Api\Dto\ImageSearchResult;
 use Neos\Flow\Annotations as Flow;
 use GuzzleHttp\Client;
-use Neos\Flow\Http\Uri;
 use Neos\Flow\Log\PsrSystemLoggerInterface;
 use Neos\Utility\Arrays;
 
 class WikimediaClient
 {
+    /**
+     * The result limit for the simple filename query
+     * @var int
+     */
+    protected $totalResultLimit = 500;
+
+    /**
+     * @var int
+     */
+    protected $itemsPerPage = 20;
+
     /**
      * @var string
      */
@@ -39,17 +50,6 @@ class WikimediaClient
     protected $logger;
 
     /**
-     * The result limit for the simple filename query
-     * @var int
-     */
-    protected $totalResultLimit = 500;
-
-    /**
-     * @var int
-     */
-    protected $itemsPerPage = 20;
-
-    /**
      * WikimediaClient constructor.
      * @param string $domain
      */
@@ -59,28 +59,11 @@ class WikimediaClient
     }
 
     /**
-     * @param string $term
      * @param int $offset
-     * @return WikimediaQueryResult
+     * @return ImageSearchResult
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function search(string $term, int $offset = 0): WikimediaQueryResult
-    {
-        $searchResultArray = $this->executeQuery([
-            'titles' => $term,
-            'prop' => 'images',
-            'imlimit' => $this->totalResultLimit
-        ]);
-
-        return $this->expandSearchResultForPage($searchResultArray, $offset);
-    }
-
-    /**
-     * @param int $offset
-     * @return WikimediaQueryResult
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function findAll(int $offset = 0): WikimediaQueryResult
+    public function findAll(int $offset = 0): ImageSearchResult
     {
         $resultArray = $this->executeQuery([
             'list' => 'allimages',
@@ -88,15 +71,16 @@ class WikimediaClient
             'aidir' => 'older',
             'ailimit' => $this->totalResultLimit
         ]);
-        $fileNames = [];
+
         $allImages = Arrays::getValueByPath($resultArray, 'query.allimages');
+        $imageCollection = new ImageSearchResult([], $this->countAll());
         $imagesToExpand = array_slice($allImages, $offset, $this->itemsPerPage);
 
         foreach ($imagesToExpand as $image) {
-            $fileNames[] = str_replace(' ', '_', $image['title']);
+            $imageCollection->addImageTitle(str_replace(' ', '_', $image['title']));
         }
 
-        return new WikimediaQueryResult($this->getAssetDetails($fileNames), $this->countAll());
+        return $imageCollection;
     }
 
     /**
@@ -117,43 +101,16 @@ class WikimediaClient
 
 
     /**
-     * @param array $searchResult
-     * @param int $offset
-     * @return WikimediaQueryResult
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    protected function expandSearchResultForPage(array $searchResult, int $offset): WikimediaQueryResult
-    {
-        $fileNames = [];
-
-        $pages = Arrays::getValueByPath($searchResult, 'query.pages');
-
-        if (!is_array($pages) || !isset(current($pages)['images'])) {
-            return new WikimediaQueryResult([], 0);
-        }
-
-        $allImages = current($pages)['images'];
-        $imagesToExpand = array_slice($allImages, $offset, $this->itemsPerPage);
-
-        foreach ($imagesToExpand as $image) {
-            $fileNames[] = str_replace(' ', '_', $image['title']);
-        }
-
-        return new WikimediaQueryResult($this->getAssetDetails($fileNames), count($allImages));
-    }
-
-    /**
-     * @param array $fileNames
+     * @param ImageSearchResult $imageSearchResult
      * @param int $thumbSize
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAssetDetails(array $fileNames, $thumbSize = 240): array
+    public function getAssetDetails(ImageSearchResult $imageSearchResult, $thumbSize = 240): WikimediaQueryResult
     {
         $items = [];
-
         $iiprop = 'url|size|metadata|extmetadata|user';
-        $titles = implode('|', $fileNames);
+        $titles = implode('|', $imageSearchResult->getImageTitles()->toArray());
 
         $assetDetails = $this->executeQuery([
             'prop' => 'imageinfo',
@@ -174,10 +131,10 @@ class WikimediaClient
             $items[$identifier] = current($page['imageinfo']);
 
             $items[$identifier]['identifier'] = $identifier;
-            $items[$identifier]['filename'] = substr($page['title'], 5);
+            $items[$identifier]['filename'] = explode(':',$page['title'])[1];
         }
 
-        return $items;
+        return new WikimediaQueryResult($items, $imageSearchResult->getTotalResults());
     }
 
     /**
@@ -185,7 +142,7 @@ class WikimediaClient
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function executeQuery(array $data): array
+    public function executeQuery(array $data): array
     {
         $queryUrl = $this->buildQueryUrl($data);
         $result = $this->getClient()->request('GET', $queryUrl);

@@ -14,6 +14,7 @@ use DL\AssetSource\Wikimedia\Api\WikimediaClient;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceInterface;
 use Neos\Media\Domain\Model\AssetSource\Neos\NeosAssetProxyRepository;
+use Neos\Utility\Arrays;
 
 final class WikimediaAssetSource implements AssetSourceInterface
 {
@@ -33,9 +34,9 @@ final class WikimediaAssetSource implements AssetSourceInterface
     private $assetProxyRepository;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $domain;
+    protected $assetSourceOptions;
 
     /**
      * PexelsAssetSource constructor.
@@ -45,7 +46,7 @@ final class WikimediaAssetSource implements AssetSourceInterface
     public function __construct(string $assetSourceIdentifier, array $assetSourceOptions)
     {
         $this->assetSourceIdentifier = $assetSourceIdentifier;
-        $this->domain = $assetSourceOptions['domain'];
+        $this->assetSourceOptions = $assetSourceOptions;
     }
 
     /**
@@ -97,11 +98,20 @@ final class WikimediaAssetSource implements AssetSourceInterface
      */
     public function getWikimediaClient(): WikimediaClient
     {
-        if($this->wikimediaClient === null) {
-            $this->wikimediaClient = new WikimediaClient($this->domain);
+        if ($this->wikimediaClient === null) {
+            $this->wikimediaClient = new WikimediaClient($this->getOption('domain'));
         }
 
         return $this->wikimediaClient;
+    }
+
+    /**
+     * @param string $optionPath
+     * @return mixed
+     */
+    public function getOption(string $optionPath)
+    {
+        return Arrays::getValueByPath($this->assetSourceOptions, $optionPath);
     }
 
     /**

@@ -9,10 +9,11 @@ namespace DL\AssetSource\Wikimedia\AssetSource;
  * source code.
  */
 
+use Neos\Flow\Annotations as Flow;
+use DL\AssetSource\Wikimedia\Api\SearchStrategies\SearchStrategyFactory;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceConnectionExceptionInterface;
-use Crew\Wikimedia;
 
 final class WikimediaAssetProxyQuery implements AssetProxyQueryInterface
 {
@@ -20,6 +21,12 @@ final class WikimediaAssetProxyQuery implements AssetProxyQueryInterface
      * @var WikimediaAssetSource
      */
     private $assetSource;
+
+    /**
+     * @var SearchStrategyFactory
+     * @Flow\Inject
+     */
+    protected $searchStrategyFactory;
 
     /**
      * WikimediaAssetProxyQuery constructor.
@@ -102,11 +109,13 @@ final class WikimediaAssetProxyQuery implements AssetProxyQueryInterface
     public function execute(): AssetProxyQueryResultInterface
     {
         if(empty($this->searchTerm)) {
-            $assetData = $this->assetSource->getWikimediaClient()->findAll();
+            $imageCollection = $this->assetSource->getWikimediaClient()->findAll();
         } else {
-            $assetData = $this->assetSource->getWikimediaClient()->search($this->searchTerm, $this->offset);
+            $searchStrategy = $this->searchStrategyFactory->getInstanceForAssetSource($this->assetSource);
+            $imageCollection = $searchStrategy->search($this->searchTerm, $this->offset);
         }
 
+        $assetData = $this->assetSource->getWikimediaClient()->getAssetDetails($imageCollection);
         return new WikimediaAssetProxyQueryResult($this, $assetData, $this->assetSource);
     }
 

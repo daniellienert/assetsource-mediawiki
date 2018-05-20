@@ -4,6 +4,13 @@ Neos:
       wikipedia:
         assetSource: 'DL\AssetSource\Wikimedia\AssetSource\WikimediaAssetSource'
         assetSourceOptions:
-#          domain: de.wikipedia.org
-          domain: commons.wikimedia.org
-          searchStrategy: DL\AssetSource\Wikimedia\Api\SearchStrategies\DirectImageSearchStrategy
+          domain: de.wikipedia.org
+#          domain: commons.wikimedia.org
+          searchStrategy: DL\AssetSource\Wikimedia\Api\SearchStrategies\ArticleSearchStrategy
+#          searchStrategy: DL\AssetSource\Wikimedia\Api\SearchStrategies\DirectImageSearchStrategy
+          excludedImages:
+            - Wikiquote-logo
+            - Wikinews-logo
+            - Commons-logo
+            - Wiktfavicon
+            - Disambig-dark

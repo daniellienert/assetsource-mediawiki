@@ -9,6 +9,7 @@ namespace DL\AssetSource\Wikimedia\AssetSource;
  * source code.
  */
 
+use DL\AssetSource\Wikimedia\Api\Dto\ImageSearchResult;
 use Neos\Media\Domain\Model\AssetSource\AssetNotFoundExceptionInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
@@ -41,7 +42,8 @@ final class WikimediaAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function getAssetProxy(string $identifier): AssetProxyInterface
     {
-        return new WikimediaAssetProxy(current($this->assetSource->getWikimediaClient()->getAssetDetails([$identifier])), $this->assetSource);
+        $queryResult = $this->assetSource->getWikimediaClient()->getAssetDetails(new ImageSearchResult([$identifier], 1));
+        return new WikimediaAssetProxy($queryResult->getAssetIterator()->current(), $this->assetSource);
     }
 
     /**
