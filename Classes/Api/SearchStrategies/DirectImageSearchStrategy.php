@@ -40,11 +40,17 @@ class DirectImageSearchStrategy extends AbstractSearchStrategy
             return $imageSearchResult;
         }
 
-        $allImages = current($pages)['images'];
+        $allImages = [];
+        foreach (current($pages)['images'] as $imageArray) {
+            $allImages[] = $imageArray['title'];
+        }
+
+        $this->filterExcludedImages($allImages);
+
         $imagesToExpand = array_slice($allImages, $offset, $this->itemsPerPage);
 
         foreach ($imagesToExpand as $image) {
-            $imageSearchResult->addImageTitle(str_replace(' ', '_', $image['title']));
+            $imageSearchResult->addImageTitle(str_replace(' ', '_', $image));
         }
 
         $imageSearchResult->setTotalResults(count($allImages));

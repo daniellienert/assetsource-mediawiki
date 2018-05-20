@@ -8,9 +8,10 @@ Neos:
 #          domain: commons.wikimedia.org
           searchStrategy: DL\AssetSource\Wikimedia\Api\SearchStrategies\ArticleSearchStrategy
 #          searchStrategy: DL\AssetSource\Wikimedia\Api\SearchStrategies\DirectImageSearchStrategy
-          excludedImages:
-            - Wikiquote-logo
-            - Wikinews-logo
-            - Commons-logo
-            - Wiktfavicon
-            - Disambig-dark
+          excludedIdentifierPatterns:
+            - '*Wikiquote-logo.svg'
+            - '*Wikinews-logo.svg'
+            - '*Commons-logo.svg'
+            - '*Disambig-dark.svg'
+            - '*Pictogram voting info.svg'
+            - '*Loudspeaker.svg'

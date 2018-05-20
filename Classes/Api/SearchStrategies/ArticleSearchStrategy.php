@@ -66,6 +66,7 @@ class ArticleSearchStrategy extends AbstractSearchStrategy
             }
         }
 
+        $this->filterExcludedImages($allImages);
         $imagesToExpand = array_slice($allImages, $offset, $this->itemsPerPage);
 
         foreach ($imagesToExpand as $imageTitle) {

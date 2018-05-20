@@ -36,4 +36,23 @@ abstract class AbstractSearchStrategy implements SearchStrategyInterface
         $this->assetSource = $assetSource;
         $this->wikimediaClient = $assetSource->getWikimediaClient();
     }
+
+    /**
+     * @param array $images
+     */
+    protected function filterExcludedImages(array &$images)
+    {
+        $excludedIdentifierPatterns = $this->assetSource->getOption('excludedIdentifierPatterns');
+
+        $images= array_filter($images,
+            function ($image) use ($excludedIdentifierPatterns) {
+                foreach ($excludedIdentifierPatterns as $excludedIdentifierPattern) {
+                    if (fnmatch($excludedIdentifierPattern, $image)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        );
+    }
 }
