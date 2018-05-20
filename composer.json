@@ -1,0 +1,20 @@
+{
+    "description": "",
+    "type": "neos-package",
+    "name": "dl/assetsource-wikimedia",
+    "license": "MIT",
+    "require": {
+        "neos/neos": "*",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "DL\\AssetSource\\Wikimedia\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "DL.AssetSource.Wikimedia"
+        }
+    }
+}
