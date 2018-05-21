@@ -1,4 +1,4 @@
-[![Latest Stable Version](https://poser.pugx.org/dl/assetsource-mediaWiki/v/stable)](https://packagist.org/packages/dl/assetsource-mediaWiki) [![Total Downloads](https://poser.pugx.org/dl/assetsource-mediaWiki/downloads)](https://packagist.org/packages/dl/assetsource-mediaWiki) [![License](https://poser.pugx.org/dl/assetsource-mediaWiki/license)](https://packagist.org/packages/dl/assetsource-mediaWiki)
+[![Latest Stable Version](https://poser.pugx.org/dl/assetsource-mediawiki/v/stable)](https://packagist.org/packages/dl/assetsource-mediawiki) [![Total Downloads](https://poser.pugx.org/dl/assetsource-mediawiki/downloads)](https://packagist.org/packages/dl/assetsource-mediawiki) [![License](https://poser.pugx.org/dl/assetsource-mediawiki/license)](https://packagist.org/packages/dl/assetsource-mediawiki)
 
 # MediaWiki Asset Source
 
