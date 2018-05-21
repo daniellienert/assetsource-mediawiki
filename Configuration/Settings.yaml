@@ -4,10 +4,8 @@ Neos:
       wikipedia:
         assetSource: 'DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource'
         assetSourceOptions:
-#          domain: de.wikipedia.org
-          domain: commons.wikimedia.org
-#          searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
-          searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\DirectImageSearchStrategy
+          domain: en.wikipedia.org
+          searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
           excludedIdentifierPatterns:
             - '*Wikiquote-logo.svg'
             - '*Wikinews-logo.svg'
