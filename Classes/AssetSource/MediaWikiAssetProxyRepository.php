@@ -1,15 +1,15 @@
 <?php
-namespace DL\AssetSource\Wikimedia\AssetSource;
+namespace DL\AssetSource\MediaWiki\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\Wikimedia\Api\Dto\ImageSearchResult;
+use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
 use Neos\Media\Domain\Model\AssetSource\AssetNotFoundExceptionInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
@@ -18,17 +18,17 @@ use Neos\Media\Domain\Model\AssetSource\AssetSourceConnectionExceptionInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetTypeFilter;
 use Neos\Media\Domain\Model\Tag;
 
-final class WikimediaAssetProxyRepository implements AssetProxyRepositoryInterface
+final class MediaWikiAssetProxyRepository implements AssetProxyRepositoryInterface
 {
     /**
-     * @var WikimediaAssetSource
+     * @var MediaWikiAssetSource
      */
     private $assetSource;
 
     /**
-     * @param WikimediaAssetSource $assetSource
+     * @param MediaWikiAssetSource $assetSource
      */
-    public function __construct(WikimediaAssetSource $assetSource)
+    public function __construct(MediaWikiAssetSource $assetSource)
     {
         $this->assetSource = $assetSource;
     }
@@ -42,8 +42,8 @@ final class WikimediaAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function getAssetProxy(string $identifier): AssetProxyInterface
     {
-        $queryResult = $this->assetSource->getWikimediaClient()->getAssetDetails(new ImageSearchResult([$identifier], 1));
-        return new WikimediaAssetProxy($queryResult->getAssetIterator()->current(), $this->assetSource);
+        $queryResult = $this->assetSource->getMediaWikiClient()->getAssetDetails(new ImageSearchResult([$identifier], 1));
+        return new MediaWikiAssetProxy($queryResult->getAssetIterator()->current(), $this->assetSource);
     }
 
     /**
@@ -61,7 +61,7 @@ final class WikimediaAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function findAll(): AssetProxyQueryResultInterface
     {
-        $query = new WikimediaAssetProxyQuery($this->assetSource);
+        $query = new MediaWikiAssetProxyQuery($this->assetSource);
         return $query->execute();
     }
 
@@ -74,7 +74,7 @@ final class WikimediaAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function findBySearchTerm(string $searchTerm): AssetProxyQueryResultInterface
     {
-        $query = new WikimediaAssetProxyQuery($this->assetSource);
+        $query = new MediaWikiAssetProxyQuery($this->assetSource);
         $query->setSearchTerm($searchTerm);
         return $query->execute();
     }
@@ -104,6 +104,6 @@ final class WikimediaAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function countAll(): int
     {
-        return $this->assetSource->getWikimediaClient()->countAll();
+        return $this->assetSource->getMediaWikiClient()->countAll();
     }
 }

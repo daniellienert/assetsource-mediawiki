@@ -1,21 +1,21 @@
 <?php
-namespace DL\AssetSource\Wikimedia\Api;
+namespace DL\AssetSource\MediaWiki\Api;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\Wikimedia\Api\Dto\ImageSearchResult;
+use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
 use Neos\Flow\Annotations as Flow;
 use GuzzleHttp\Client;
 use Neos\Flow\Log\PsrSystemLoggerInterface;
 use Neos\Utility\Arrays;
 
-class WikimediaClient
+class MediaWikiClient
 {
     /**
      * The result limit for the simple filename query
@@ -50,7 +50,7 @@ class WikimediaClient
     protected $logger;
 
     /**
-     * WikimediaClient constructor.
+     * MediaWikiClient constructor.
      * @param string $domain
      */
     public function __construct(string $domain)
@@ -106,7 +106,7 @@ class WikimediaClient
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAssetDetails(ImageSearchResult $imageSearchResult, $thumbSize = 240): WikimediaQueryResult
+    public function getAssetDetails(ImageSearchResult $imageSearchResult, $thumbSize = 240): MediaWikiQueryResult
     {
         $items = [];
         $iiprop = 'url|size|metadata|extmetadata|user';
@@ -134,7 +134,7 @@ class WikimediaClient
             $items[$identifier]['filename'] = explode(':',$page['title'])[1];
         }
 
-        return new WikimediaQueryResult($items, $imageSearchResult->getTotalResults());
+        return new MediaWikiQueryResult($items, $imageSearchResult->getTotalResults());
     }
 
     /**
@@ -147,7 +147,7 @@ class WikimediaClient
         $queryUrl = $this->buildQueryUrl($data);
         $result = $this->getClient()->request('GET', $queryUrl);
 
-        $this->logger->debug('Executed Query to wikimedia API "' . $queryUrl . '"');
+        $this->logger->debug('Executed Query to mediaWiki API "' . $queryUrl . '"');
 
         return \GuzzleHttp\json_decode($result->getBody(), true);
     }

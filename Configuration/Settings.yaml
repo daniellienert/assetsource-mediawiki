@@ -2,12 +2,12 @@ Neos:
   Media:
     assetSources:
       wikipedia:
-        assetSource: 'DL\AssetSource\Wikimedia\AssetSource\WikimediaAssetSource'
+        assetSource: 'DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource'
         assetSourceOptions:
 #          domain: de.wikipedia.org
           domain: commons.wikimedia.org
-#          searchStrategy: DL\AssetSource\Wikimedia\Api\SearchStrategies\ArticleSearchStrategy
-          searchStrategy: DL\AssetSource\Wikimedia\Api\SearchStrategies\DirectImageSearchStrategy
+#          searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
+          searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\DirectImageSearchStrategy
           excludedIdentifierPatterns:
             - '*Wikiquote-logo.svg'
             - '*Wikinews-logo.svg'

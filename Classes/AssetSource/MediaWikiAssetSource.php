@@ -1,8 +1,8 @@
 <?php
-namespace DL\AssetSource\Wikimedia\AssetSource;
+namespace DL\AssetSource\MediaWiki\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
@@ -10,18 +10,18 @@ namespace DL\AssetSource\Wikimedia\AssetSource;
  */
 
 use Neos\Flow\Annotations as Flow;
-use DL\AssetSource\Wikimedia\Api\WikimediaClient;
+use DL\AssetSource\MediaWiki\Api\MediaWikiClient;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceInterface;
 use Neos\Media\Domain\Model\AssetSource\Neos\NeosAssetProxyRepository;
 use Neos\Utility\Arrays;
 
-final class WikimediaAssetSource implements AssetSourceInterface
+final class MediaWikiAssetSource implements AssetSourceInterface
 {
     /**
-     * @var WikimediaClient
+     * @var MediaWikiClient
      */
-    protected $wikimediaClient = null;
+    protected $mediaWikiClient = null;
 
     /**
      * @var string
@@ -87,22 +87,22 @@ final class WikimediaAssetSource implements AssetSourceInterface
     public function getAssetProxyRepository(): AssetProxyRepositoryInterface
     {
         if ($this->assetProxyRepository === null) {
-            $this->assetProxyRepository = new WikimediaAssetProxyRepository($this);
+            $this->assetProxyRepository = new MediaWikiAssetProxyRepository($this);
         }
 
         return $this->assetProxyRepository;
     }
 
     /**
-     * @return WikimediaClient
+     * @return MediaWikiClient
      */
-    public function getWikimediaClient(): WikimediaClient
+    public function getMediaWikiClient(): MediaWikiClient
     {
-        if ($this->wikimediaClient === null) {
-            $this->wikimediaClient = new WikimediaClient($this->getOption('domain'));
+        if ($this->mediaWikiClient === null) {
+            $this->mediaWikiClient = new MediaWikiClient($this->getOption('domain'));
         }
 
-        return $this->wikimediaClient;
+        return $this->mediaWikiClient;
     }
 
     /**

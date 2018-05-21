@@ -1,15 +1,15 @@
 <?php
-namespace DL\AssetSource\Wikimedia\Api\SearchStrategies;
+namespace DL\AssetSource\MediaWiki\Api\SearchStrategies;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\Wikimedia\Api\Dto\ImageSearchResult;
+use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
 
 interface SearchStrategyInterface
 {

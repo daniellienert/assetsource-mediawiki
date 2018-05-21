@@ -1,8 +1,8 @@
 <?php
-namespace DL\AssetSource\Wikimedia\AssetSource;
+namespace DL\AssetSource\MediaWiki\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
@@ -21,7 +21,7 @@ use Neos\Utility\Arrays;
 use Neos\Utility\MediaTypes;
 use Psr\Http\Message\UriInterface;
 
-final class WikimediaAssetProxy implements AssetProxyInterface, HasRemoteOriginalInterface, SupportsIptcMetadataInterface
+final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOriginalInterface, SupportsIptcMetadataInterface
 {
     /**
      * @var array
@@ -29,7 +29,7 @@ final class WikimediaAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     private $assetData;
 
     /**
-     * @var WikimediaAssetSource
+     * @var MediaWikiAssetSource
      */
     private $assetSource;
 
@@ -44,11 +44,11 @@ final class WikimediaAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     private $iptcProperties;
 
     /**
-     * WikimediaAssetProxy constructor.
+     * MediaWikiAssetProxy constructor.
      * @param array $assetData
-     * @param WikimediaAssetSource $assetSource
+     * @param MediaWikiAssetSource $assetSource
      */
-    public function __construct(array $assetData, WikimediaAssetSource $assetSource)
+    public function __construct(array $assetData, MediaWikiAssetSource $assetSource)
     {
         $this->assetData = $assetData;
         $this->assetSource = $assetSource;

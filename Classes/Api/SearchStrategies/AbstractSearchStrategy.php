@@ -1,16 +1,16 @@
 <?php
-namespace DL\AssetSource\Wikimedia\Api\SearchStrategies;
+namespace DL\AssetSource\MediaWiki\Api\SearchStrategies;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\Wikimedia\Api\WikimediaClient;
-use DL\AssetSource\Wikimedia\AssetSource\WikimediaAssetSource;
+use DL\AssetSource\MediaWiki\Api\MediaWikiClient;
+use DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource;
 
 abstract class AbstractSearchStrategy implements SearchStrategyInterface
 {
@@ -26,23 +26,23 @@ abstract class AbstractSearchStrategy implements SearchStrategyInterface
     protected $itemsPerPage = 20;
 
     /**
-     * @var WikimediaAssetSource
+     * @var MediaWikiAssetSource
      */
     protected $assetSource;
 
     /**
-     * @var WikimediaClient
+     * @var MediaWikiClient
      */
-    protected $wikimediaClient;
+    protected $mediaWikiClient;
 
     /**
      * AbstractSearchStrategy constructor.
-     * @param WikimediaAssetSource $assetSource
+     * @param MediaWikiAssetSource $assetSource
      */
-    public function __construct(WikimediaAssetSource $assetSource)
+    public function __construct(MediaWikiAssetSource $assetSource)
     {
         $this->assetSource = $assetSource;
-        $this->wikimediaClient = $assetSource->getWikimediaClient();
+        $this->mediaWikiClient = $assetSource->getMediaWikiClient();
     }
 
     /**

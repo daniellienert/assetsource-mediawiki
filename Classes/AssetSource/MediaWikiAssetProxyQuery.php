@@ -1,8 +1,8 @@
 <?php
-namespace DL\AssetSource\Wikimedia\AssetSource;
+namespace DL\AssetSource\MediaWiki\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
@@ -10,15 +10,15 @@ namespace DL\AssetSource\Wikimedia\AssetSource;
  */
 
 use Neos\Flow\Annotations as Flow;
-use DL\AssetSource\Wikimedia\Api\SearchStrategies\SearchStrategyFactory;
+use DL\AssetSource\MediaWiki\Api\SearchStrategies\SearchStrategyFactory;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceConnectionExceptionInterface;
 
-final class WikimediaAssetProxyQuery implements AssetProxyQueryInterface
+final class MediaWikiAssetProxyQuery implements AssetProxyQueryInterface
 {
     /**
-     * @var WikimediaAssetSource
+     * @var MediaWikiAssetSource
      */
     private $assetSource;
 
@@ -29,10 +29,10 @@ final class WikimediaAssetProxyQuery implements AssetProxyQueryInterface
     protected $searchStrategyFactory;
 
     /**
-     * WikimediaAssetProxyQuery constructor.
-     * @param WikimediaAssetSource $assetSource
+     * MediaWikiAssetProxyQuery constructor.
+     * @param MediaWikiAssetSource $assetSource
      */
-    public function __construct(WikimediaAssetSource $assetSource)
+    public function __construct(MediaWikiAssetSource $assetSource)
     {
         $this->assetSource = $assetSource;
     }
@@ -109,14 +109,14 @@ final class WikimediaAssetProxyQuery implements AssetProxyQueryInterface
     public function execute(): AssetProxyQueryResultInterface
     {
         if(empty($this->searchTerm)) {
-            $imageCollection = $this->assetSource->getWikimediaClient()->findAll();
+            $imageCollection = $this->assetSource->getMediaWikiClient()->findAll();
         } else {
             $searchStrategy = $this->searchStrategyFactory->getInstanceForAssetSource($this->assetSource);
             $imageCollection = $searchStrategy->search($this->searchTerm, $this->offset);
         }
 
-        $assetData = $this->assetSource->getWikimediaClient()->getAssetDetails($imageCollection);
-        return new WikimediaAssetProxyQueryResult($this, $assetData, $this->assetSource);
+        $assetData = $this->assetSource->getMediaWikiClient()->getAssetDetails($imageCollection);
+        return new MediaWikiAssetProxyQueryResult($this, $assetData, $this->assetSource);
     }
 
     /**

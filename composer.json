@@ -1,20 +1,20 @@
 {
-    "description": "Wikimedia Asset Source for Neos CMS",
+    "description": "MediaWiki Asset Source for Neos CMS",
     "type": "neos-package",
-    "name": "dl/assetsource-wikimedia",
+    "name": "dl/assetsource-mediawiki",
     "license": "MIT",
     "require": {
-        "neos/neos": "*",
+        "neos/neos": "^4.0",
         "guzzlehttp/guzzle": "^6.3"
     },
     "autoload": {
         "psr-4": {
-            "DL\\AssetSource\\Wikimedia\\": "Classes/"
+            "DL\\AssetSource\\MediaWiki\\": "Classes/"
         }
     },
     "extra": {
         "neos": {
-            "package-key": "DL.AssetSource.Wikimedia"
+            "package-key": "DL.AssetSource.MediaWiki"
         }
     }
 }

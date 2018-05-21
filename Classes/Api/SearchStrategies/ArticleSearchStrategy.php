@@ -1,15 +1,15 @@
 <?php
-namespace DL\AssetSource\Wikimedia\Api\SearchStrategies;
+namespace DL\AssetSource\MediaWiki\Api\SearchStrategies;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\Wikimedia\Api\Dto\ImageSearchResult;
+use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
 use Neos\Utility\Arrays;
 
 class ArticleSearchStrategy extends AbstractSearchStrategy
@@ -23,7 +23,7 @@ class ArticleSearchStrategy extends AbstractSearchStrategy
      */
     public function search(string $term, int $offset = 0): ImageSearchResult
     {
-        $articleResultArray = $this->wikimediaClient->executeQuery([
+        $articleResultArray = $this->mediaWikiClient->executeQuery([
             'list' => 'search',
             'srsearch' => $term,
             'srlimit' => 10
@@ -50,7 +50,7 @@ class ArticleSearchStrategy extends AbstractSearchStrategy
             }
         }
 
-        $imageResultArray = $this->wikimediaClient->executeQuery([
+        $imageResultArray = $this->mediaWikiClient->executeQuery([
             'prop' => 'images',
             'pageids' => implode('|', $documentIds),
             'imlimit' => $this->totalResultLimit

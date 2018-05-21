@@ -1,52 +1,52 @@
 <?php
-namespace DL\AssetSource\Wikimedia\AssetSource;
+namespace DL\AssetSource\MediaWiki\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.Wikimedia package.
+ * This file is part of the DL.AssetSource.MediaWiki package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\Wikimedia\Api\WikimediaQueryResult;
+use DL\AssetSource\MediaWiki\Api\MediaWikiQueryResult;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
 
-final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInterface
+final class MediaWikiAssetProxyQueryResult implements AssetProxyQueryResultInterface
 {
     /**
-     * @var WikimediaAssetSource
+     * @var MediaWikiAssetSource
      */
     private $assetSource;
 
     /**
-     * @var WikimediaQueryResult
+     * @var MediaWikiQueryResult
      */
-    private $wikimediaQueryResult = null;
+    private $mediaWikiQueryResult = null;
 
     /**
      * @var \Iterator
      */
-    private $wikimediaQueryResultIterator;
+    private $mediaWikiQueryResultIterator;
 
     /**
-     * @var WikimediaAssetProxyQuery
+     * @var MediaWikiAssetProxyQuery
      */
-    private $WikimediaAssetProxyQuery;
+    private $MediaWikiAssetProxyQuery;
 
     /**
-     * @param WikimediaAssetProxyQuery $query
-     * @param WikimediaQueryResult $wikimediaQueryResult
-     * @param WikimediaAssetSource $assetSource
+     * @param MediaWikiAssetProxyQuery $query
+     * @param MediaWikiQueryResult $mediaWikiQueryResult
+     * @param MediaWikiAssetSource $assetSource
      */
-    public function __construct(WikimediaAssetProxyQuery $query, WikimediaQueryResult $wikimediaQueryResult, WikimediaAssetSource $assetSource)
+    public function __construct(MediaWikiAssetProxyQuery $query, MediaWikiQueryResult $mediaWikiQueryResult, MediaWikiAssetSource $assetSource)
     {
-        $this->WikimediaAssetProxyQuery = $query;
+        $this->MediaWikiAssetProxyQuery = $query;
         $this->assetSource = $assetSource;
-        $this->wikimediaQueryResult = $wikimediaQueryResult;
-        $this->wikimediaQueryResultIterator = $wikimediaQueryResult->getAssetIterator();
+        $this->mediaWikiQueryResult = $mediaWikiQueryResult;
+        $this->mediaWikiQueryResultIterator = $mediaWikiQueryResult->getAssetIterator();
     }
 
     /**
@@ -56,7 +56,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function getQuery(): AssetProxyQueryInterface
     {
-        return clone $this->WikimediaAssetProxyQuery;
+        return clone $this->MediaWikiAssetProxyQuery;
     }
 
     /**
@@ -76,7 +76,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function toArray(): array
     {
-        return $this->wikimediaQueryResult->getArrayCopy();
+        return $this->mediaWikiQueryResult->getArrayCopy();
     }
 
     /**
@@ -87,10 +87,10 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function current()
     {
-        $asset = $this->wikimediaQueryResultIterator->current();
+        $asset = $this->mediaWikiQueryResultIterator->current();
 
         if(is_array($asset)) {
-            return new WikimediaAssetProxy($asset, $this->assetSource);
+            return new MediaWikiAssetProxy($asset, $this->assetSource);
         } else {
             return null;
         }
@@ -104,7 +104,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function next()
     {
-        $this->wikimediaQueryResultIterator->next();
+        $this->mediaWikiQueryResultIterator->next();
     }
 
     /**
@@ -115,7 +115,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function key()
     {
-        return $this->wikimediaQueryResultIterator->key();
+        return $this->mediaWikiQueryResultIterator->key();
     }
 
     /**
@@ -127,7 +127,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function valid()
     {
-        return $this->wikimediaQueryResultIterator->valid();
+        return $this->mediaWikiQueryResultIterator->valid();
     }
 
     /**
@@ -138,7 +138,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function rewind()
     {
-        $this->wikimediaQueryResultIterator->rewind();
+        $this->mediaWikiQueryResultIterator->rewind();
     }
 
     /**
@@ -155,7 +155,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function offsetExists($offset)
     {
-        return $this->wikimediaQueryResultIterator->offsetExists($offset);
+        return $this->mediaWikiQueryResultIterator->offsetExists($offset);
     }
 
     /**
@@ -169,7 +169,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function offsetGet($offset)
     {
-        return new WikimediaAssetProxy($this->wikimediaQueryResultIterator->offsetGet($offset), $this->assetSource);
+        return new MediaWikiAssetProxy($this->mediaWikiQueryResultIterator->offsetGet($offset), $this->assetSource);
     }
 
     /**
@@ -186,7 +186,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function offsetSet($offset, $value)
     {
-        $this->wikimediaQueryResultIterator->offsetSet($offset, $value);
+        $this->mediaWikiQueryResultIterator->offsetSet($offset, $value);
     }
 
     /**
@@ -200,7 +200,7 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function offsetUnset($offset)
     {
-        $this->wikimediaQueryResultIterator->offsetUnset($offset);
+        $this->mediaWikiQueryResultIterator->offsetUnset($offset);
     }
 
     /**
@@ -214,6 +214,6 @@ final class WikimediaAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function count()
     {
-        return $this->wikimediaQueryResult->getTotalResults();
+        return $this->mediaWikiQueryResult->getTotalResults();
     }
 }
