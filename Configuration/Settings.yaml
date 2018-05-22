@@ -1,16 +1,33 @@
 Neos:
   Media:
     assetSources:
-      wikipedia:
+      wikipedia_de:
         assetSource: 'DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource'
         assetSourceOptions:
-          domain: en.wikipedia.org
+          domain: de.wikipedia.org
+          label: Wikipedia (DE)
           searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
           useQueryResultCache: true
           excludedIdentifierPatterns:
-            - '*Wikiquote-logo.svg'
-            - '*Wikinews-logo.svg'
-            - '*Commons-logo.svg'
-            - '*Disambig-dark.svg'
-            - '*Pictogram voting info.svg'
-            - '*Loudspeaker.svg'
+             - '*.svg'
+#            - '*Wikiquote-logo.svg'
+#            - '*Wikinews-logo.svg'
+#            - '*Commons-logo.svg'
+#            - '*Disambig-dark.svg'
+#            - '*Pictogram voting info.svg'
+#            - '*Loudspeaker.svg'
+#            - '*Speaker_Icon.svg'
+#            - '*Wikiversity-logo*'
+#            - '*Wikisource-logo*'
+#            - '*Wikibooks-logo.svg'
+#            - '*Wiktionary-logo-v2.svg'
+#            - '*Wikivoyage-Logo-v3-icon.svg'
+#            - '*Wiki letter w cropped.svg'
+#            - '*Openstreetmap_logo.svg'
+#            - '*Portal-puzzle.svg'
+#            - '*Question_book-new.svg'
+#            - '*Translation_to_english_arrow.svg'
+#            - '*Padlock-silver.svg'
+#            - '*Searchtool.svg'
+#            - '*Edit-clear.svg'
+#            - '*DodgerBlue_flag_waving.svg'

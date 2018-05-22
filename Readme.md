@@ -12,23 +12,31 @@ Install the package via composer:
 
 ## Configuration
 
+You can add arbitrary instances of this asset source, to query different wikimedia instances - e.g. the english and german instance. To do that, just add another configuration block with the specific settings under a custom identifier.
+
 | setting        | Description          |
 | ------------- |-------------|
 | domain      | The domain on which the MediaWiki instance is available.  |
+| label      | The label of the instance, shown in the backend  |
 | searchStrategy      | A class with implemented search strategy. See the section below for details      |
-| excludedIdentifierPatterns | Asset identifiers which should be filtered out and not displayed. Used to filter Wikipedias common icons. |
+| useQueryResultCache      | Whether or not to use the result cache for queries to the API. If used, speeds up the pagination a lot but may return outdated results. The caching lifetime defaults to 1 day.      |
+| excludedIdentifierPatterns | Asset identifiers which should be filtered out and not displayed. Used to filter out Wikipedias common icons. |
 
-**Example for accessing the english Wikipedia:**
+**Example for accessing the german Wikipedia:**
 
-	Neos:
-	  Media:
-	    assetSources:
-	      wikipedia:
-	        assetSource: 'DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource'
-	        assetSourceOptions:
-	          domain: en.wikipedia.org
-	          searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
-
+    Neos:
+      Media:
+        assetSources:
+          wikipedia_de:
+            assetSource: 'DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource'
+            assetSourceOptions:
+              domain: de.wikipedia.org
+              label: Wikipedia (DE)
+              searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
+              useQueryResultCache: true
+              excludedIdentifierPatterns:
+                 - '*.svg'
+                 
 ## Search Strategies
 
 Searching in the wikipedia for images is a bit tricky. First there is not only one wikipedia instance, but one for each available language. Second an image can be stored in the language specific wikipedia or in Wikimedia Commons and included from there. 

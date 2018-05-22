@@ -78,7 +78,7 @@ final class MediaWikiAssetSource implements AssetSourceInterface
      */
     public function getLabel(): string
     {
-        return 'Wikipedia';
+        return $this->getOption('label') ?? $this->getOption('domain');
     }
 
     /**
