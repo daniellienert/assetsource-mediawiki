@@ -27,7 +27,7 @@ class MediaWikiClient
     /**
      * @var int
      */
-    protected $itemsPerPage = 20;
+    protected $itemsPerPage = 30;
 
     /**
      * @var string

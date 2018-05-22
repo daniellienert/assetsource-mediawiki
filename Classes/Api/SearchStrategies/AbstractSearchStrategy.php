@@ -23,7 +23,7 @@ abstract class AbstractSearchStrategy implements SearchStrategyInterface
     /**
      * @var int
      */
-    protected $itemsPerPage = 20;
+    protected $itemsPerPage = 30;
 
     /**
      * @var MediaWikiAssetSource
