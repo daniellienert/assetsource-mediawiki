@@ -9,8 +9,9 @@ namespace DL\AssetSource\MediaWiki\Api;
  * source code.
  */
 
-use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
 use Neos\Flow\Annotations as Flow;
+use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
+use Neos\Cache\Frontend\VariableFrontend;
 use GuzzleHttp\Client;
 use Neos\Flow\Log\PsrSystemLoggerInterface;
 use Neos\Utility\Arrays;
@@ -50,12 +51,26 @@ class MediaWikiClient
     protected $logger;
 
     /**
-     * MediaWikiClient constructor.
-     * @param string $domain
+     * @var VariableFrontend
+     * @Flow\Inject
      */
-    public function __construct(string $domain)
+    protected $queryResultCache;
+
+    /**
+     * @var bool
+     */
+    protected $useQueryResultCache = false;
+
+    /**
+     * MediaWikiClient constructor.
+     *
+     * @param string $domain
+     * @param bool $useQueryResultCache
+     */
+    public function __construct(string $domain, bool $useQueryResultCache)
     {
         $this->domain = $domain;
+        $this->useQueryResultCache = $useQueryResultCache;
     }
 
     /**
@@ -123,7 +138,7 @@ class MediaWikiClient
         $pages = Arrays::getValueByPath($assetDetails, 'query.pages');
 
         foreach ($pages as $key => $page) {
-            if(!isset($page['imageinfo'])) {
+            if (!isset($page['imageinfo'])) {
                 continue;
             }
 
@@ -131,7 +146,7 @@ class MediaWikiClient
             $items[$identifier] = current($page['imageinfo']);
 
             $items[$identifier]['identifier'] = $identifier;
-            $items[$identifier]['filename'] = explode(':',$page['title'])[1];
+            $items[$identifier]['filename'] = explode(':', $page['title'])[1];
         }
 
         return new MediaWikiQueryResult($items, $imageSearchResult->getTotalResults());
@@ -145,11 +160,24 @@ class MediaWikiClient
     public function executeQuery(array $data): array
     {
         $queryUrl = $this->buildQueryUrl($data);
+
+        if ($this->useQueryResultCache) {
+            $queryHash = sha1($queryUrl);
+            if ($this->queryResultCache->has($queryHash)) {
+                $this->logger->debug('Received result for API-Query  "' . $queryUrl . '" from cache');
+                return $this->queryResultCache->get($queryHash);
+            }
+        }
+
         $result = $this->getClient()->request('GET', $queryUrl);
+        $resultData = \GuzzleHttp\json_decode($result->getBody(), true);
 
-        $this->logger->debug('Executed Query to mediaWiki API "' . $queryUrl . '"');
+        $this->logger->debug('Executed Query to mediawiki API "' . $queryUrl . '"');
+        if ($this->useQueryResultCache) {
+            $this->queryResultCache->set($queryHash, $resultData);
+        }
 
-        return \GuzzleHttp\json_decode($result->getBody(), true);
+        return $resultData;
     }
 
     /**

@@ -6,7 +6,7 @@ This asset source uses the public API of [MediaWiki](https://www.mediawiki.org/w
 
 ## Installation
 
-Just Install the package via composer 
+Install the package via composer:
 
 	composer require dl/assetsource-mediawiki
 
@@ -31,9 +31,9 @@ Just Install the package via composer
 
 ## Search Strategies
 
-Searching in the wikipedia for images can be kind of tricky. First there is not only one wikipedia instance, but one for each available language. Second an image can be stored in the language specific wikipedia or in Wikimedia Commons and included from there. 
+Searching in the wikipedia for images is a bit tricky. First there is not only one wikipedia instance, but one for each available language. Second an image can be stored in the language specific wikipedia or in Wikimedia Commons and included from there. 
 
-I implemented two different search strategies with different pros and cons.
+The package brings two different search strategies with different pros and cons.
 
 ### Direct Image Search Strategy
 
@@ -53,4 +53,4 @@ Please take care of the [correct attribution](https://wiki.creativecommons.org/w
 
 ## Known Issues
 
-See the issue list for [known issues](https://github.com/daniellienert/assetsource-mediawiki/issues) an missing features.
+See the issue list for [known issues](https://github.com/daniellienert/assetsource-mediawiki/issues) and missing features.

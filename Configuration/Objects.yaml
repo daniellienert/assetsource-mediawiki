@@ -1,0 +1,9 @@
+DL\AssetSource\MediaWiki\Api\MediaWikiClient:
+  properties:
+    queryResultCache:
+      object:
+        factoryObjectName: Neos\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: DlAssetSourceMediaWiki_QueryResultCache

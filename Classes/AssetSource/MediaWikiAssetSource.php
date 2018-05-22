@@ -99,7 +99,10 @@ final class MediaWikiAssetSource implements AssetSourceInterface
     public function getMediaWikiClient(): MediaWikiClient
     {
         if ($this->mediaWikiClient === null) {
-            $this->mediaWikiClient = new MediaWikiClient($this->getOption('domain'));
+            $this->mediaWikiClient = new MediaWikiClient(
+                $this->getOption('domain'),
+                $this->getOption('useQueryResultCache') ?? false
+            );
         }
 
         return $this->mediaWikiClient;

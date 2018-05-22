@@ -6,6 +6,7 @@ Neos:
         assetSourceOptions:
           domain: en.wikipedia.org
           searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
+          useQueryResultCache: true
           excludedIdentifierPatterns:
             - '*Wikiquote-logo.svg'
             - '*Wikinews-logo.svg'

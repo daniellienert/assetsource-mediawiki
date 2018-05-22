@@ -1,0 +1,3 @@
+DlAssetSourceMediaWiki_QueryResultCache:
+  frontend: Neos\Cache\Frontend\VariableFrontend
+  defaultLifetime: 86400
