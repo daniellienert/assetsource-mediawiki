@@ -7,6 +7,8 @@ Neos:
           domain: de.wikipedia.org
           label: Wikipedia (DE)
           searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
+          searchStrategyOptions:
+            articleLimit: 10
           useQueryResultCache: true
           excludedIdentifierPatterns:
              - '*.svg'

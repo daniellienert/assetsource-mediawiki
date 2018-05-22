@@ -14,12 +14,13 @@ Install the package via composer:
 
 You can add arbitrary instances of this asset source, to query different wikimedia instances - e.g. the english and german instance. To do that, just add another configuration block with the specific settings under a custom identifier.
 
-| setting        | Description          |
-| ------------- |-------------|
-| domain      | The domain on which the MediaWiki instance is available.  |
-| label      | The label of the instance, shown in the backend  |
-| searchStrategy      | A class with implemented search strategy. See the section below for details      |
-| useQueryResultCache      | Whether or not to use the result cache for queries to the API. If used, speeds up the pagination a lot but may return outdated results. The caching lifetime defaults to 1 day.      |
+| Setting                    | Description          |
+| -------------------------- |----------------------|
+| domain                     | The domain on which the MediaWiki instance is available.  |
+| label                      | The label of the instance, shown in the backend  |
+| searchStrategy             | A class with implemented search strategy. See the section below for details      |
+| searchStrategyOptions      | Search strategy specific options      |
+| useQueryResultCache        | Whether or not to use the result cache for queries to the API. If used, speeds up the pagination a lot but may return outdated results. The caching lifetime defaults to 1 day.      |
 | excludedIdentifierPatterns | Asset identifiers which should be filtered out and not displayed. Used to filter out Wikipedias common icons. |
 
 **Example for accessing the german Wikipedia:**
@@ -33,6 +34,8 @@ You can add arbitrary instances of this asset source, to query different wikimed
               domain: de.wikipedia.org
               label: Wikipedia (DE)
               searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
+              searchStrategyOptions:
+                articleLimit: 10
               useQueryResultCache: true
               excludedIdentifierPatterns:
                  - '*.svg'
@@ -54,6 +57,10 @@ This search strategy uses the filename and available meta data like the descript
 	searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
 	
 This search strategy fits better to the Wikipedia use case. It doesn't search the images directly but uses the more powerfull article search to receive a number of wiki articles and then queries the images shown on that articles. The benefit is, if you configure the domain to `en.wikipedia.org` you will get assets, that are uploaded directly to this instance, as well as all fitting assets uploaded to Wikimedia Commons
+
+| Setting                   | Description                                |
+| ------------------------- |--------------------------------------------|
+| articleLimit              | How many articles should be taken into account to query images from. Maximum are 50 articles. Higher values result in more returned articles, but the results may get inaccurate |
 
 ## Usage of images in your project
 

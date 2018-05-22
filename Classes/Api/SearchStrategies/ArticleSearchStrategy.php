@@ -16,6 +16,15 @@ class ArticleSearchStrategy extends AbstractSearchStrategy
 {
 
     /**
+     * @var int
+     */
+    protected $articleLimit;
+
+    public function initializeObject() {
+        $this->articleLimit = $this->assetSource->getOption('searchStrategyOptions.articleLimit') ?? 10;
+    }
+
+    /**
      * @param string $term
      * @param int $offset
      * @return ImageSearchResult
@@ -26,7 +35,7 @@ class ArticleSearchStrategy extends AbstractSearchStrategy
         $articleResultArray = $this->mediaWikiClient->executeQuery([
             'list' => 'search',
             'srsearch' => $term,
-            'srlimit' => 10
+            'srlimit' => $this->articleLimit
         ]);
 
         return $this->buildImageSearchResult($articleResultArray, $offset);
