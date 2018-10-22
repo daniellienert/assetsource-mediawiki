@@ -23,6 +23,10 @@ class ImageSearchResult
      */
     protected $totalResults;
 
+    /**
+     * @param string[] $imageTitles
+     * @param int $totalResults
+     */
     public function __construct(array $imageTitles = [], int $totalResults = 0)
     {
         $this->imageTitles = new ArrayCollection($imageTitles);
@@ -56,7 +60,8 @@ class ImageSearchResult
     /**
      * @param string $imageTitle
      */
-    public function addImageTitle(string $imageTitle) {
+    public function addImageTitle(string $imageTitle): void
+    {
         $this->imageTitles->add($imageTitle);
     }
 }

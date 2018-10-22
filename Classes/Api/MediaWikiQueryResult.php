@@ -28,7 +28,7 @@ class MediaWikiQueryResult
     protected $totalResults = 0;
 
     /**
-     * @param array $assets
+     * @param string[] $assets
      * @param int $totalResults
      */
     public function __construct(array $assets, int $totalResults)

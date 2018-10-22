@@ -9,7 +9,6 @@ namespace DL\AssetSource\MediaWiki\AssetSource;
  * source code.
  */
 
-use Neos\Flow\Annotations as Flow;
 use DL\AssetSource\MediaWiki\Api\MediaWikiClient;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceInterface;
@@ -34,14 +33,14 @@ final class MediaWikiAssetSource implements AssetSourceInterface
     private $assetProxyRepository;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $assetSourceOptions;
 
     /**
      * PexelsAssetSource constructor.
      * @param string $assetSourceIdentifier
-     * @param array $assetSourceOptions
+     * @param string[] $assetSourceOptions
      */
     public function __construct(string $assetSourceIdentifier, array $assetSourceOptions)
     {
@@ -54,7 +53,7 @@ final class MediaWikiAssetSource implements AssetSourceInterface
      * interface (which might conflict with an asset source's implementation or generated Flow proxy class).
      *
      * @param string $assetSourceIdentifier
-     * @param array $assetSourceOptions
+     * @param string[] $assetSourceOptions
      * @return AssetSourceInterface
      */
     public static function createFromConfiguration(string $assetSourceIdentifier, array $assetSourceOptions): AssetSourceInterface

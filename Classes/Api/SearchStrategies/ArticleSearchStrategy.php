@@ -10,6 +10,7 @@ namespace DL\AssetSource\MediaWiki\Api\SearchStrategies;
  */
 
 use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
+use GuzzleHttp\Exception\GuzzleException;
 use Neos\Utility\Arrays;
 
 class ArticleSearchStrategy extends AbstractSearchStrategy
@@ -20,7 +21,8 @@ class ArticleSearchStrategy extends AbstractSearchStrategy
      */
     protected $articleLimit;
 
-    public function initializeObject() {
+    public function initializeObject(): void
+    {
         $this->articleLimit = $this->assetSource->getOption('searchStrategyOptions.articleLimit') ?? 10;
     }
 
@@ -28,7 +30,8 @@ class ArticleSearchStrategy extends AbstractSearchStrategy
      * @param string $term
      * @param int $offset
      * @return ImageSearchResult
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws \Neos\Cache\Exception
      */
     public function search(string $term, int $offset = 0): ImageSearchResult
     {
@@ -42,10 +45,11 @@ class ArticleSearchStrategy extends AbstractSearchStrategy
     }
 
     /**
-     * @param array $searchResult
+     * @param string[] $searchResult
      * @param int $offset
      * @return ImageSearchResult
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws \Neos\Cache\Exception
      */
     protected function buildImageSearchResult(array $searchResult, int $offset): ImageSearchResult
     {

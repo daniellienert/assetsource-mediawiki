@@ -9,6 +9,7 @@ namespace DL\AssetSource\MediaWiki\Api;
  * source code.
  */
 
+use GuzzleHttp\Exception\GuzzleException;
 use Neos\Flow\Annotations as Flow;
 use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
 use Neos\Cache\Frontend\VariableFrontend;
@@ -40,7 +41,7 @@ class MediaWikiClient
     protected $client;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $queryResults = [];
 
@@ -76,7 +77,8 @@ class MediaWikiClient
     /**
      * @param int $offset
      * @return ImageSearchResult
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws \Neos\Cache\Exception
      */
     public function findAll(int $offset = 0): ImageSearchResult
     {
@@ -102,7 +104,8 @@ class MediaWikiClient
      * Count all asset
      *
      * @return int
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws \Neos\Cache\Exception
      */
     public function countAll(): int
     {
@@ -118,10 +121,11 @@ class MediaWikiClient
     /**
      * @param ImageSearchResult $imageSearchResult
      * @param int $thumbSize
-     * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return MediaWikiQueryResult
+     * @throws GuzzleException
+     * @throws \Neos\Cache\Exception
      */
-    public function getAssetDetails(ImageSearchResult $imageSearchResult, $thumbSize = 240): MediaWikiQueryResult
+    public function getAssetDetails(ImageSearchResult $imageSearchResult, int $thumbSize = 240): MediaWikiQueryResult
     {
         $items = [];
         $iiprop = 'url|size|metadata|extmetadata|user';
@@ -137,7 +141,7 @@ class MediaWikiClient
 
         $pages = Arrays::getValueByPath($assetDetails, 'query.pages');
 
-        foreach ($pages as $key => $page) {
+        foreach ($pages as $page) {
             if (!isset($page['imageinfo'])) {
                 continue;
             }
@@ -153,9 +157,10 @@ class MediaWikiClient
     }
 
     /**
-     * @param array $data
-     * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @param string[] $data
+     * @return string[]
+     * @throws GuzzleException
+     * @throws \Neos\Cache\Exception
      */
     public function executeQuery(array $data): array
     {
@@ -181,7 +186,7 @@ class MediaWikiClient
     }
 
     /**
-     * @param array $data
+     * @param string[]
      * @return string
      */
     protected function buildQueryUrl(array $data): string
@@ -189,15 +194,13 @@ class MediaWikiClient
         $data['action'] = 'query';
         $data['format'] = 'json';
 
-        $uri = sprintf('https://%s/w/api.php?%s', $this->domain, http_build_query($data));
-
-        return $uri;
+        return sprintf('https://%s/w/api.php?%s', $this->domain, http_build_query($data));
     }
 
     /**
      * @return Client
      */
-    private function getClient()
+    private function getClient(): Client
     {
         if ($this->client === null) {
             $this->client = new Client([

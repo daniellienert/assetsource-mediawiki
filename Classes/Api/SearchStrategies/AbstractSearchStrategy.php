@@ -46,21 +46,19 @@ abstract class AbstractSearchStrategy implements SearchStrategyInterface
     }
 
     /**
-     * @param array $images
+     * @param string[] $images
      */
-    protected function filterExcludedImages(array &$images)
+    protected function filterExcludedImages(array &$images): void
     {
         $excludedIdentifierPatterns = $this->assetSource->getOption('excludedIdentifierPatterns');
 
-        $images= array_filter($images,
-            function ($image) use ($excludedIdentifierPatterns) {
-                foreach ($excludedIdentifierPatterns as $excludedIdentifierPattern) {
-                    if (fnmatch($excludedIdentifierPattern, $image)) {
-                        return false;
-                    }
+        $images = array_filter($images, function ($image) use ($excludedIdentifierPatterns) {
+            foreach ($excludedIdentifierPatterns as $excludedIdentifierPattern) {
+                if (fnmatch($excludedIdentifierPattern, $image)) {
+                    return false;
                 }
-                return true;
             }
-        );
+            return true;
+        });
     }
 }

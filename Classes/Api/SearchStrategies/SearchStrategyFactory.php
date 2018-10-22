@@ -14,7 +14,6 @@ use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 
 class SearchStrategyFactory
 {
-
     /**
      * @param MediaWikiAssetSource $assetSource
      * @return SearchStrategyInterface
@@ -28,7 +27,7 @@ class SearchStrategyFactory
             throw new InvalidConfigurationException(sprintf('The search strategy class for asset source %s is not defined.', $assetSource->getIdentifier()), 1526800804);
         }
 
-        if(!class_exists($strategyClass)) {
+        if (!class_exists($strategyClass)) {
             throw new InvalidConfigurationException(sprintf('The search strategy class %s for asset source %s does not exist.', $strategyClass, $assetSource->getIdentifier()), 1526800805);
         }
 

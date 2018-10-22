@@ -79,6 +79,8 @@ final class MediaWikiAssetProxyQueryResult implements AssetProxyQueryResultInter
         return $this->mediaWikiQueryResult->getArrayCopy();
     }
 
+    // @codingStandardsIgnoreStart
+
     /**
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
@@ -89,7 +91,7 @@ final class MediaWikiAssetProxyQueryResult implements AssetProxyQueryResultInter
     {
         $asset = $this->mediaWikiQueryResultIterator->current();
 
-        if(is_array($asset)) {
+        if (is_array($asset)) {
             return new MediaWikiAssetProxy($asset, $this->assetSource);
         } else {
             return null;
@@ -216,4 +218,6 @@ final class MediaWikiAssetProxyQueryResult implements AssetProxyQueryResultInter
     {
         return $this->mediaWikiQueryResult->getTotalResults();
     }
+
+    // @codingStandardsIgnoreEnd
 }

@@ -108,7 +108,7 @@ final class MediaWikiAssetProxyQuery implements AssetProxyQueryInterface
      */
     public function execute(): AssetProxyQueryResultInterface
     {
-        if(empty($this->searchTerm)) {
+        if (empty($this->searchTerm)) {
             $imageCollection = $this->assetSource->getMediaWikiClient()->findAll();
         } else {
             $searchStrategy = $this->searchStrategyFactory->getInstanceForAssetSource($this->assetSource);

@@ -10,6 +10,8 @@ namespace DL\AssetSource\MediaWiki\AssetSource;
  */
 
 use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
+use GuzzleHttp\Exception\GuzzleException;
+use Neos\Cache\Exception;
 use Neos\Media\Domain\Model\AssetSource\AssetNotFoundExceptionInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
@@ -38,7 +40,8 @@ final class MediaWikiAssetProxyRepository implements AssetProxyRepositoryInterfa
      * @return AssetProxyInterface
      * @throws AssetNotFoundExceptionInterface
      * @throws AssetSourceConnectionExceptionInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws Exception
      */
     public function getAssetProxy(string $identifier): AssetProxyInterface
     {
@@ -51,13 +54,12 @@ final class MediaWikiAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function filterByType(AssetTypeFilter $assetType = null): void
     {
-
     }
 
     /**
      * @return AssetProxyQueryResultInterface
      * @throws AssetSourceConnectionExceptionInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function findAll(): AssetProxyQueryResultInterface
     {
@@ -70,7 +72,7 @@ final class MediaWikiAssetProxyRepository implements AssetProxyRepositoryInterfa
      * @return AssetProxyQueryResultInterface
      * @throws AssetSourceConnectionExceptionInterface
      * @throws \Exception
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function findBySearchTerm(string $searchTerm): AssetProxyQueryResultInterface
     {
@@ -82,14 +84,16 @@ final class MediaWikiAssetProxyRepository implements AssetProxyRepositoryInterfa
     /**
      * @param Tag $tag
      * @return AssetProxyQueryResultInterface
+     * @throws \Exception
      */
     public function findByTag(Tag $tag): AssetProxyQueryResultInterface
     {
-        throw new \Exception(__METHOD__ . 'is not yet implemented');
+        throw new \Exception(__METHOD__ . ' to filter ' .  $tag->getLabel() . 'is not yet implemented');
     }
 
     /**
      * @return AssetProxyQueryResultInterface
+     * @throws \Exception
      */
     public function findUntagged(): AssetProxyQueryResultInterface
     {
@@ -100,7 +104,8 @@ final class MediaWikiAssetProxyRepository implements AssetProxyRepositoryInterfa
      * Count all assets, regardless of tag or collection
      *
      * @return int
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws Exception
      */
     public function countAll(): int
     {

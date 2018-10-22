@@ -10,6 +10,7 @@ namespace DL\AssetSource\MediaWiki\Api\SearchStrategies;
  */
 
 use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
+use GuzzleHttp\Exception\GuzzleException;
 use Neos\Utility\Arrays;
 
 class DirectImageSearchStrategy extends AbstractSearchStrategy
@@ -19,7 +20,8 @@ class DirectImageSearchStrategy extends AbstractSearchStrategy
      * @param string $term
      * @param int $offset
      * @return ImageSearchResult
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws \Neos\Cache\Exception
      */
     public function search(string $term, int $offset = 0): ImageSearchResult
     {
@@ -33,7 +35,7 @@ class DirectImageSearchStrategy extends AbstractSearchStrategy
     }
 
     /**
-     * @param array $searchResult
+     * @param string[] $searchResult
      * @param int $offset
      * @return ImageSearchResult
      */

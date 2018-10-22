@@ -9,7 +9,6 @@ namespace DL\AssetSource\MediaWiki\AssetSource;
  * source code.
  */
 
-use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Http\Uri;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\HasRemoteOriginalInterface;
@@ -24,7 +23,7 @@ use Psr\Http\Message\UriInterface;
 final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOriginalInterface, SupportsIptcMetadataInterface
 {
     /**
-     * @var array
+     * @var string[]
      */
     private $assetData;
 
@@ -39,13 +38,13 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     private $importedAsset;
 
     /**
-     * @var array
+     * @var string[]
      */
     private $iptcProperties;
 
     /**
      * MediaWikiAssetProxy constructor.
-     * @param array $assetData
+     * @param string[] $assetData
      * @param MediaWikiAssetSource $assetSource
      */
     public function __construct(array $assetData, MediaWikiAssetSource $assetSource)
@@ -108,7 +107,7 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getMediaType(): string
     {
-       return  MediaTypes::getMediaTypeFromFilename($this->getFilename());
+        return MediaTypes::getMediaTypeFromFilename($this->getFilename());
     }
 
     /**
@@ -203,7 +202,7 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     /**
      * Returns all known IPTC metadata properties as key => value (e.g. "Title" => "My Photo")
      *
-     * @return array
+     * @return string[]
      */
     public function getIptcProperties(): array
     {
