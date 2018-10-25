@@ -141,6 +141,10 @@ class MediaWikiClient
 
         $pages = Arrays::getValueByPath($assetDetails, 'query.pages');
 
+        if ($pages === null || !is_array($pages)) {
+            return new MediaWikiQueryResult([], 0);
+        }
+
         foreach ($pages as $page) {
             if (!isset($page['imageinfo'])) {
                 continue;
