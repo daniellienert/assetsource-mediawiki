@@ -34,7 +34,7 @@ final class MediaWikiAssetProxyQueryResult implements AssetProxyQueryResultInter
     /**
      * @var MediaWikiAssetProxyQuery
      */
-    private $MediaWikiAssetProxyQuery;
+    private $mediaWikiAssetProxyQuery;
 
     /**
      * @param MediaWikiAssetProxyQuery $query
@@ -43,7 +43,7 @@ final class MediaWikiAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function __construct(MediaWikiAssetProxyQuery $query, MediaWikiQueryResult $mediaWikiQueryResult, MediaWikiAssetSource $assetSource)
     {
-        $this->MediaWikiAssetProxyQuery = $query;
+        $this->mediaWikiAssetProxyQuery = $query;
         $this->assetSource = $assetSource;
         $this->mediaWikiQueryResult = $mediaWikiQueryResult;
         $this->mediaWikiQueryResultIterator = $mediaWikiQueryResult->getAssetIterator();
@@ -56,7 +56,7 @@ final class MediaWikiAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function getQuery(): AssetProxyQueryInterface
     {
-        return clone $this->MediaWikiAssetProxyQuery;
+        return clone $this->mediaWikiAssetProxyQuery;
     }
 
     /**
@@ -72,11 +72,11 @@ final class MediaWikiAssetProxyQueryResult implements AssetProxyQueryResultInter
     /**
      * Returns an array with the asset proxies in the result set
      *
-     * @return AssetProxyInterface[]
+     * @return mixed[]
      */
     public function toArray(): array
     {
-        return $this->mediaWikiQueryResult->getArrayCopy();
+        return $this->mediaWikiQueryResult->getAssets()->getArrayCopy();
     }
 
     // @codingStandardsIgnoreStart
