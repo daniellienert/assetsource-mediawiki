@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace DL\AssetSource\MediaWiki\Api;
 
 /*
@@ -9,13 +11,13 @@ namespace DL\AssetSource\MediaWiki\Api;
  * source code.
  */
 
-use GuzzleHttp\Exception\GuzzleException;
 use Neos\Flow\Annotations as Flow;
+use GuzzleHttp\Exception\GuzzleException;
 use DL\AssetSource\MediaWiki\Api\Dto\ImageSearchResult;
 use Neos\Cache\Frontend\VariableFrontend;
 use GuzzleHttp\Client;
-use Neos\Flow\Log\PsrSystemLoggerInterface;
 use Neos\Utility\Arrays;
+use Psr\Log\LoggerInterface;
 
 class MediaWikiClient
 {
@@ -46,7 +48,7 @@ class MediaWikiClient
     protected $queryResults = [];
 
     /**
-     * @var PsrSystemLoggerInterface
+     * @var LoggerInterface
      * @Flow\Inject
      */
     protected $logger;
