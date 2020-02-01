@@ -4,9 +4,16 @@
     "name": "dl/assetsource-mediawiki",
     "license": "MIT",
     "require": {
-        "neos/neos": "^4.1 || ^5.0",
+        "neos/neos": "^4.1",
         "guzzlehttp/guzzle": "^6.3"
     },
+    "authors": [
+        {
+            "name": "Daniel Lienert",
+            "homepage": "https://github.com/daniellienert",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "DL\\AssetSource\\MediaWiki\\": "Classes/"
