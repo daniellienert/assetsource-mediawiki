@@ -10,7 +10,8 @@ namespace DL\AssetSource\MediaWiki\AssetSource;
  * source code.
  */
 
-use Neos\Flow\Http\Uri;
+use Neos\Flow\Annotations as Flow;
+use Neos\Http\Factories\UriFactory;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\HasRemoteOriginalInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\SupportsIptcMetadataInterface;
@@ -42,6 +43,12 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      * @var string[]
      */
     private $iptcProperties;
+
+    /**
+     * @Flow\Inject
+     * @var UriFactory
+     */
+    protected $uriFactory;
 
     /**
      * MediaWikiAssetProxy constructor.
@@ -76,7 +83,7 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getLabel(): string
     {
-        return $this->getProperty('extmetadata.ObjectName.value');
+        return (string)$this->getProperty('extmetadata.ObjectName.value');
     }
 
     /**
@@ -84,7 +91,7 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getFilename(): string
     {
-        return $this->getProperty('filename');
+        return (string)$this->getProperty('filename');
     }
 
     /**
@@ -132,7 +139,7 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getThumbnailUri(): ?UriInterface
     {
-        return new Uri($this->getProperty('thumburl'));
+        return $this->uriFactory->createUri((string)$this->getProperty('thumburl'));
     }
 
     /**
@@ -140,7 +147,7 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getPreviewUri(): ?UriInterface
     {
-        return new Uri($this->getProperty('url'));
+        return $this->uriFactory->createUri((string)$this->getProperty('url'));
     }
 
     /**
@@ -148,7 +155,7 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getImportStream()
     {
-        return fopen($this->getProperty('url'), 'r');
+        return fopen($this->getProperty('url'), 'rb');
     }
 
     /**
