@@ -10,6 +10,8 @@ namespace DL\AssetSource\MediaWiki\AssetSource;
  * source code.
  */
 
+use Neos\Eel\EelEvaluatorInterface;
+use Neos\Eel\Utility;
 use Neos\Flow\Annotations as Flow;
 use Neos\Http\Factories\UriFactory;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
@@ -51,6 +53,18 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     protected $uriFactory;
 
     /**
+     * @var array
+     * @Flow\InjectConfiguration(path="defaultContext", package="Neos.Fusion")
+     */
+    protected $defaultContextConfiguration;
+
+    /**
+     * @var EelEvaluatorInterface
+     * @Flow\Inject(lazy=false)
+     */
+    protected $eelEvaluator;
+
+    /**
      * MediaWikiAssetProxy constructor.
      * @param string[] $assetData
      * @param MediaWikiAssetSource $assetSource
@@ -80,10 +94,11 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
 
     /**
      * @return string
+     * @throws \Neos\Eel\Exception
      */
     public function getLabel(): string
     {
-        return (string)$this->getProperty('extmetadata.ObjectName.value');
+        return $this->resolveValue(['extmetadata.ObjectName.value', 'extmetadata.ImageDescription.value']);
     }
 
     /**
@@ -190,10 +205,11 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      *
      * @param string $propertyName
      * @return bool
+     * @throws \Neos\Eel\Exception
      */
     public function hasIptcProperty(string $propertyName): bool
     {
-        return isset($this->getIptcProperties()[$propertyName]);
+        return isset($this->getIptcProperties()[$propertyName]) && !empty($this->getIptcProperties()[$propertyName]);
     }
 
     /**
@@ -201,6 +217,7 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      *
      * @param string $propertyName
      * @return string
+     * @throws \Neos\Eel\Exception
      */
     public function getIptcProperty(string $propertyName): string
     {
@@ -211,16 +228,50 @@ final class MediaWikiAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      * Returns all known IPTC metadata properties as key => value (e.g. "Title" => "My Photo")
      *
      * @return string[]
+     * @throws \Neos\Eel\Exception
      */
     public function getIptcProperties(): array
     {
         if ($this->iptcProperties === null) {
             $this->iptcProperties = [
-                'Title' => strip_tags($this->getProperty('extmetadata.ImageDescription.value')),
-                'Creator' => strip_tags($this->getProperty('extmetadata.Artist.value')),
+                'Title' => $this->resolveValue(['extmetadata.ImageDescription.value', 'extmetadata.ObjectName.value']),
+                'Creator' => $this->resolveValue(['extmetadata.Artist.value']),
+                'CopyrightNotice' => $this->compileCopyrightNotice(),
             ];
         }
 
         return $this->iptcProperties;
     }
+
+    /**
+     * @return string
+     * @throws \Neos\Eel\Exception
+     */
+    private function compileCopyrightNotice(): string
+    {
+        $context = [
+            'LicenseUrl' => $this->resolveValue(['extmetadata.LicenseUrl.value', 'descriptionurl']),
+            'Title' => $this->resolveValue(['extmetadata.ImageDescription.value', 'extmetadata.ObjectName.value']),
+            'Creator' => $this->resolveValue(['extmetadata.Artist.value']),
+        ];
+
+        return Utility::evaluateEelExpression($this->assetSource->getCopyRightNoticeTemplate(), $this->eelEvaluator, $context, $this->defaultContextConfiguration);
+    }
+
+    /**
+     * @param array $candidatePaths
+     * @return string
+     */
+    private function resolveValue(array $candidatePaths): string
+    {
+        foreach ($candidatePaths as $candidatePath) {
+            if ($this->getProperty($candidatePath) !== null && trim($this->getProperty($candidatePath)) !== '') {
+                return strip_tags((string)$this->getProperty($candidatePath));
+            }
+        }
+
+        return '';
+    }
+
+
 }

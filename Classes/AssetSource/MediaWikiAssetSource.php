@@ -39,6 +39,11 @@ final class MediaWikiAssetSource implements AssetSourceInterface
     protected $assetSourceOptions;
 
     /**
+     * @var string
+     */
+    private $copyRightNoticeTemplate;
+
+    /**
      * PexelsAssetSource constructor.
      * @param string $assetSourceIdentifier
      * @param string[] $assetSourceOptions
@@ -47,6 +52,7 @@ final class MediaWikiAssetSource implements AssetSourceInterface
     {
         $this->assetSourceIdentifier = $assetSourceIdentifier;
         $this->assetSourceOptions = $assetSourceOptions;
+        $this->copyRightNoticeTemplate = $assetSourceOptions['copyRightNoticeTemplate'] ?? '';
     }
 
     /**
@@ -123,5 +129,13 @@ final class MediaWikiAssetSource implements AssetSourceInterface
     public function isReadOnly(): bool
     {
         return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCopyRightNoticeTemplate(): string
+    {
+        return $this->copyRightNoticeTemplate;
     }
 }

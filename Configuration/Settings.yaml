@@ -10,6 +10,7 @@ Neos:
           searchStrategyOptions:
             articleLimit: 10
           useQueryResultCache: true
+          copyRightNoticeTemplate: '${Creator + "<a href=" + LicenseUrl + ">" + Title + "</a>"}'
           excludedIdentifierPatterns:
              - '*.svg'
 #            - '*Wikiquote-logo.svg'
