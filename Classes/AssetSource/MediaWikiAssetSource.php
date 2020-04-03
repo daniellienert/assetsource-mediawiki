@@ -10,7 +10,9 @@ namespace DL\AssetSource\MediaWiki\AssetSource;
  * source code.
  */
 
+use Neos\Flow\Annotations as Flow;
 use DL\AssetSource\MediaWiki\Api\MediaWikiClient;
+use Neos\Flow\ResourceManagement\ResourceManager;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceInterface;
 use Neos\Media\Domain\Model\AssetSource\Neos\NeosAssetProxyRepository;
@@ -18,6 +20,12 @@ use Neos\Utility\Arrays;
 
 final class MediaWikiAssetSource implements AssetSourceInterface
 {
+    /**
+     * @Flow\Inject
+     * @var ResourceManager
+     */
+    protected $resourceManager;
+
     /**
      * @var MediaWikiClient
      */
@@ -137,5 +145,23 @@ final class MediaWikiAssetSource implements AssetSourceInterface
     public function getCopyRightNoticeTemplate(): string
     {
         return $this->copyRightNoticeTemplate;
+    }
+
+    /**
+     * Returns the resource path to Assetsources icon
+     *
+     * @return string
+     */
+    public function getIconUri(): string
+    {
+        return $this->resourceManager->getPublicPackageResourceUriByPath($this->assetSourceOptions['icon']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->getLabel() . ': ' . $this->getOption('domain');
     }
 }

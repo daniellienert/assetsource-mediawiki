@@ -4,8 +4,9 @@ Neos:
       wikipedia_de:
         assetSource: 'DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource'
         assetSourceOptions:
-          domain: de.wikipedia.org
           label: Wikipedia (DE)
+          icon: 'resource://DL.AssetSource.MediaWiki/Public/Wikipedia-logo.svg'
+          domain: de.wikipedia.org
           searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
           searchStrategyOptions:
             articleLimit: 10
