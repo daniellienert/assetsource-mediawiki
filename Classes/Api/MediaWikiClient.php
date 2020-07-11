@@ -181,7 +181,7 @@ class MediaWikiClient
         }
 
         $result = $this->getClient()->request('GET', $queryUrl);
-        $resultData = \GuzzleHttp\json_decode($result->getBody(), true);
+        $resultData = \GuzzleHttp\json_decode($result->getBody()->getContents(), true);
 
         $this->logger->debug('Executed Query to mediawiki API "' . $queryUrl . '"');
         if ($this->useQueryResultCache) {
