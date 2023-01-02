@@ -8,7 +8,9 @@ This asset source uses the public API of [MediaWiki](https://www.mediawiki.org/w
 
 Install the package via composer:
 
-	composer require dl/assetsource-mediawiki
+```bash
+composer require dl/assetsource-mediawiki
+```
 
 ## Configuration
 
@@ -25,20 +27,22 @@ You can add arbitrary instances of this asset source, to query different wikimed
 
 **Example for accessing the german Wikipedia:**
 
-    Neos:
-      Media:
-        assetSources:
-          wikipedia_de:
-            assetSource: 'DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource'
-            assetSourceOptions:
-              domain: de.wikipedia.org
-              label: Wikipedia (DE)
-              searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
-              searchStrategyOptions:
-                articleLimit: 10
-              useQueryResultCache: true
-              excludedIdentifierPatterns:
-                 - '*.svg'
+```yaml
+Neos:
+  Media:
+    assetSources:
+      wikipedia_de:
+        assetSource: 'DL\AssetSource\MediaWiki\AssetSource\MediaWikiAssetSource'
+        assetSourceOptions:
+          domain: de.wikipedia.org
+          label: Wikipedia (DE)
+          searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
+          searchStrategyOptions:
+            articleLimit: 10
+          useQueryResultCache: true
+          excludedIdentifierPatterns:
+              - '*.svg'
+```
                  
 ## Search Strategies
 
@@ -48,14 +52,18 @@ The package brings two different search strategies with different pros and cons.
 
 ### Direct Image Search Strategy
 
-	searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\DirectImageSearchStrategy
+```yaml
+searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\DirectImageSearchStrategy
+```
 
 This search strategy uses the filename and available meta data like the description of an asset to search on. That means if you configure the `commons.wikimedia.org` as domain, the package will search through about ~50 Million asssets available in all languages. But for historical reasons, some images are stored directly in the language specific wikipedia instances and therefore not available with that setting.
 
 ### Article Search Strategy (Default)
 
-	searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
-	
+```yaml
+searchStrategy: DL\AssetSource\MediaWiki\Api\SearchStrategies\ArticleSearchStrategy
+```
+
 This search strategy fits better to the Wikipedia use case. It doesn't search the images directly but uses the more powerfull article search to receive a number of wiki articles and then queries the images shown on that articles. The benefit is, if you configure the domain to `en.wikipedia.org` you will get assets, that are uploaded directly to this instance, as well as all fitting assets uploaded to Wikimedia Commons
 
 | Setting                   | Description                                |
